@@ -1,0 +1,5 @@
+/genkit/cmd/*/.genkit/
+*/.genkit
+_output/
+/**/.idea/
+/**/go.sum

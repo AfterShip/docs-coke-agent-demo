@@ -1,0 +1,302 @@
+{
+  "swagger": "2.0",
+  "info": {},
+  "paths": {
+    "/users": {
+      "get": {
+        "description": "Get user list according to input parameters.",
+        "summary": "Get user list.",
+        "operationId": "getUsers",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "uint64",
+            "example": "1",
+            "x-go-name": "Limit",
+            "name": "limit",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "uint64",
+            "example": "1",
+            "x-go-name": "Offset",
+            "name": "offset",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/UsersResponse"
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      },
+      "post": {
+        "schemes": [
+          "http",
+          "https"
+        ],
+        "summary": "Create a user resource.",
+        "operationId": "createUser",
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/UserResponse"
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "description": "Get details for specified user according to input parameters.",
+        "summary": "Get details for specified user.",
+        "operationId": "getUser",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "ID",
+            "description": "ID of the user to fetch",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/UserResponse"
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      },
+      "delete": {
+        "schemes": [
+          "http",
+          "https"
+        ],
+        "summary": "Delete a user resource.",
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "ID",
+            "description": "ID of the user to fetch",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/UserResponse"
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ErrResponse": {
+      "description": "Reference will be omitted if it does not exist.",
+      "type": "object",
+      "title": "ErrResponse defines the return messages when an error occurred.",
+      "properties": {
+        "code": {
+          "description": "Code defines the business error code.",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Code"
+        },
+        "message": {
+          "description": "Message contains the detail of this message.\nThis message is suitable to be exposed to external",
+          "type": "string",
+          "x-go-name": "Message"
+        },
+        "reference": {
+          "description": "Reference returns the reference document which maybe useful to solve this error.",
+          "type": "string",
+          "x-go-name": "Reference"
+        }
+      },
+      "x-go-package": "github.com/marmotedu/component-base/pkg/core"
+    },
+    "Meta": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Business error code. Please check the code with our docs.",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Code",
+          "example": 0
+        },
+        "errors": {
+          "description": "The other messages. But most of this will be empty.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Errors",
+          "example": []
+        },
+        "message": {
+          "description": "The detail message of the error.",
+          "type": "string",
+          "x-go-name": "Message",
+          "example": "The user existed."
+        },
+        "request_id": {
+          "description": "The request id of the request.",
+          "type": "string",
+          "x-go-name": "RequestId",
+          "example": "67575010234d4f9f9adaca7c26e7e709"
+        }
+      },
+      "x-go-package": "github.com/AfterShip/docs-coke-agent-demo/genkit/apps/pkg/server"
+    },
+    "User": {
+      "type": "object",
+      "required": [
+        "first_name",
+        "last_name"
+      ],
+      "properties": {
+        "created_at": {
+          "description": "CreatedAt of the user",
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "CreatedAt",
+          "example": "2020-01-01T00:00:00Z"
+        },
+        "deleted_at": {
+          "description": "DeletedAt of the user",
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "DeletedAt",
+          "example": "2020-01-01T00:00:00Z"
+        },
+        "first_name": {
+          "type": "string",
+          "x-go-name": "FirstName",
+          "example": "John"
+        },
+        "id": {
+          "description": "ID of the user",
+          "type": "string",
+          "x-go-name": "ID",
+          "example": "cec7829d22994b329b35cdeda2e13831"
+        },
+        "last_name": {
+          "type": "string",
+          "x-go-name": "LastName",
+          "example": "Doe"
+        },
+        "updated_at": {
+          "description": "UpdatedAt of the user",
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "UpdatedAt",
+          "example": "2020-01-01T00:00:00Z"
+        }
+      },
+      "x-go-package": "github.com/AfterShip/docs-coke-agent-demo/genkit/apps/apiserver/model/domain_model"
+    },
+    "UsersResponseData": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "description": "Total number of users.",
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "Total",
+          "example": 1
+        },
+        "users": {
+          "description": "Users list.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/User"
+          },
+          "x-go-name": "Users"
+        }
+      },
+      "x-go-package": "github.com/AfterShip/docs-coke-agent-demo/genkit/apps/apiserver/internal/controller/users"
+    }
+  },
+  "responses": {
+    "ErrorResponse": {
+      "description": "ErrorResponse The response means there is an error.",
+      "schema": {
+        "type": "object",
+        "required": [
+          "meta"
+        ],
+        "properties": {
+          "meta": {
+            "$ref": "#/definitions/Meta"
+          }
+        }
+      }
+    },
+    "UserResponse": {
+      "description": "",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "user": {
+                "$ref": "#/definitions/User"
+              }
+            },
+            "x-go-name": "Data"
+          },
+          "meta": {
+            "$ref": "#/definitions/Meta"
+          }
+        }
+      },
+      "headers": {
+        "Body": {}
+      }
+    },
+    "UsersResponse": {
+      "description": "",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/definitions/UsersResponseData"
+          },
+          "meta": {
+            "$ref": "#/definitions/Meta"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+insecure:
+  bind_address: '127.0.0.1'
+  bind_port: 8000
+
+server:
+  #  middlewares: "dump"
+  mode: "release"
+
+log:
+  ## debug, info, warn, error, fatal, panic
+  level: "debug"
+
+cache:
+  redis_infra:
+    master_name: "mymaster"
+    sentinel_addr: [ "127.0.0.1:26379" ]
+    db_number: 0
+    pool_size: 400
+
+  redis_business:
+    master_name: "mymaster"
+    sentinel_addr: [ "127.0.0.1:26379" ]
+    db_number: 1
+    pool_size: 400
+
+limiter:
+  rate_form: "10000-S"
+  redis_prefix_name: "go-apiserver"
+
+llm:
+  prompt_directory: "/Users/xq.yan/otherprojects/agent-demo/prompts"
+  aftership_llm_host: "http://testing-incy-data-aigc.as-in.io/v1/stub/vendors/AWS"
+
+external_apis:
+  aftership:
+    product_listing_url: "http://testing-incy-pltf-pd-product-listings.as-in.io/api/v1"
+    product_center_url: "http://testing-incy-pltf-pd-products-center.as-in.io/api/v1"

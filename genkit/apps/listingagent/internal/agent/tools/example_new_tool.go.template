@@ -1,0 +1,64 @@
+package tool
+
+import (
+	"context"
+
+	"github.com/firebase/genkit/go/ai"
+	"github.com/firebase/genkit/go/genkit"
+	"github.com/AfterShip/docs-coke-agent-demo/genkit/pkg/log"
+	"go.uber.org/zap"
+)
+
+// TODO: Replace with your actual request/response structs
+// ExampleRequest represents the input for example_tool
+type ExampleRequest struct {
+	Parameter string `json:"parameter" jsonschema:"required,description=Description of the parameter"`
+}
+
+// ExampleResponse represents the output of example_tool
+type ExampleResponse struct {
+	Result string `json:"result" jsonschema:"description=Description of the result"`
+}
+
+// ExampleTool implements the example_tool
+type ExampleTool struct{}
+
+// NewExampleTool creates a new example tool instance
+func NewExampleTool() *ExampleTool {
+	return &ExampleTool{}
+}
+
+// Name returns the tool name
+func (e *ExampleTool) Name() string {
+	return "example_tool" // TODO: Replace with your tool name
+}
+
+// Description returns the tool description
+func (e *ExampleTool) Description() string {
+	return "Description of what this tool does" // TODO: Replace with your tool description
+}
+
+// Define creates and registers the example tool with the given genkit client
+func (e *ExampleTool) Define(ctx context.Context, client *genkit.Genkit) ai.ToolRef {
+	return genkit.DefineTool(client, e.Name(), e.Description(),
+		func(toolCtx *ai.ToolContext, input ExampleRequest) (ExampleResponse, error) {
+			log.L(ctx).Info("example_tool called",
+				zap.String("parameter", input.Parameter))
+
+			// TODO: Implement your tool logic here
+			response := ExampleResponse{
+				Result: "Your result here",
+			}
+
+			log.L(ctx).Info("example_tool response",
+				zap.String("result", response.Result))
+
+			return response, nil
+		},
+	)
+}
+
+/*
+To add this tool to the registry, add the following line to interface.go in GetDefaultRegistry():
+	registry.Register(NewExampleTool())
+*/
