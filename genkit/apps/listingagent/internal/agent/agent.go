@@ -13,6 +13,7 @@ import (
 	"github.com/firebase/genkit/go/core"
 	"github.com/firebase/genkit/go/genkit"
 	"github.com/mingyuans/errors"
+	"github.com/mingyuans/genkit-anthropic/anthropic"
 	"go.uber.org/zap"
 )
 
