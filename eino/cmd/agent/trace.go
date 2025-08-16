@@ -10,6 +10,10 @@ func setupTracing() {
 	publicKey := os.Getenv("LANGFUSE_PUBLIC_KEY")
 	secretKey := os.Getenv("LANGFUSE_SECRET_KEY")
 
+	if publicKey == "" || secretKey == "" {
+		return
+	}
+
 	cbh, _ := langfuse.NewLangfuseHandler(&langfuse.Config{
 		Host:      "http://127.0.0.1:3000",
 		Name:      "eino-demo",
