@@ -30,6 +30,7 @@ func main() {
 	// 创建 LLM
 	log.Printf("===create llm===\n")
 	cm := createClaudeChatModel(ctx)
+	log.Printf("create llm success\n\n")
 
 	// 绑定 Tools
 	log.Printf("===bind tools===\n")
@@ -44,7 +45,6 @@ func main() {
 	// 对于 Claude 模型，Eino 需要我们自己实现一个 tool checker，否则无法触发 MCP 调用
 	config.StreamToolCallChecker = claudeStreamToolChecker
 	config.ToolsConfig.Tools = tools
-	log.Printf("create llm success\n\n")
 	agent, newAgentErr := react.NewAgent(ctx, config)
 	if newAgentErr != nil {
 		panic(newAgentErr)
