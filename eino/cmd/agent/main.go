@@ -27,25 +27,24 @@ func main() {
 	mainSystemPrompt, _ := getPromptByName(ctx, langfuseAPI, "eino-demo-main-system")
 	mainSystemMessage := getSystemMessage(mainSystemPrompt)
 
-	config := &react.AgentConfig{MaxStep: 25}
-
 	// 创建 LLM
 	log.Printf("===create llm===\n")
 	cm := createClaudeChatModel(ctx)
-	config.ToolCallingModel = cm
-	// 对于 Claude 模型，Eino 需要我们自己实现一个 tool checker，否则无法触发 MCP 调用
-	config.StreamToolCallChecker = claudeStreamToolChecker
-	log.Printf("create llm success\n\n")
 
 	// 绑定 Tools
 	log.Printf("===bind tools===\n")
 	tools := make([]tool.BaseTool, 0)
 	tools = append(tools, newAfterShipConnectorSDKTool()...)
 	tools = append(tools, newFileSystemTool()...)
-	config.ToolsConfig.Tools = tools
 
 	// 创建 Agent
 	log.Printf("===create agent===\n")
+	config := &react.AgentConfig{MaxStep: 25}
+	config.ToolCallingModel = cm
+	// 对于 Claude 模型，Eino 需要我们自己实现一个 tool checker，否则无法触发 MCP 调用
+	config.StreamToolCallChecker = claudeStreamToolChecker
+	config.ToolsConfig.Tools = tools
+	log.Printf("create llm success\n\n")
 	agent, newAgentErr := react.NewAgent(ctx, config)
 	if newAgentErr != nil {
 		panic(newAgentErr)
